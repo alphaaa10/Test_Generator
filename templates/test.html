@@ -610,12 +610,12 @@
         errorAlert.style.display = 'block';
 
         // Auto hide after 5 seconds
-        setTimeout(closeAlert, 5000);
+        alertTimeout = setTimeout(closeAlert, 10000);
     }
 
     // Close alert (remains unchanged)
     function closeAlert() {
-        errorAlert.style.display = 'none';
+        errorAlert.style.display = 'none'
     }
 
     // Validate inputs (minor modification for category limits)
@@ -674,7 +674,7 @@
     // Generate test - MODIFIED TO MAKE API CALL
 async function generateTest() {
     if (!validateInputs()) return;
-
+    closeAlert();
     // Show loading state
     const originalBtnText = generateBtn.innerHTML;
     generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Generating...';

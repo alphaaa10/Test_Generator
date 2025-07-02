@@ -512,16 +512,12 @@
         function renderQuestionDots() {
             const dotsContainer = document.getElementById('questionDots');
             dotsContainer.innerHTML = '';
-            nextBtn.addEventListener('click',function(){
-                checkAnswers.push(currentQuestionIndex);
-                console.log("new next button",checkAnswers) 
-            })
             questions.forEach((_, index) => {
                 const dot = document.createElement('span');
-                dot.className = `question-dot ${index === currentQuestionIndex ? 'current' : 'unanswered'}`;
-                dot.textContent = index + 1;
-                dot.onclick = () => goToQuestion(index);
-                dotsContainer.appendChild(dot);
+                    dot.className = `question-dot ${index === currentQuestionIndex ? 'current' : 'unanswered'}`;
+                    dot.textContent = index + 1;
+                    dot.onclick = () => goToQuestion(index);
+                    dotsContainer.appendChild(dot);
             });
         }
         //extra
@@ -559,8 +555,8 @@
                     questionHTML += `
                         <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectOption(${question.id}, '${option}', this)">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="question_${question.id}" ${isSelected ? 'checked' : ''}>
-                                <label class="form-check-label w-100">
+                                <input class="form-check-input" type="radio" name="question_${question.id}" id="question_${question.id}_${index}" ${isSelected ? 'checked' : ''}>
+                                <label for='question_${question.id}_${index}'  class="form-check-label w-100">
                                     <strong>${String.fromCharCode(65 + index)}.</strong> ${option}
                                 </label>
                             </div>
@@ -604,9 +600,15 @@
             //console.log(questions[index])
             const dots = document.querySelectorAll('.question-dot');
             const questionId = questions[index].id;
-            
+            console.log("hello1",questionId);
+            console.log("hello2",userAnswers)
+            console.log("hello3",userAnswers[questionId])
+            //dot.className = `question-dot ${index in userAnswers? 'answered'
+            console.log("hello4",dots[index].className)
+            console.log("hello5",dots[index])
             if (userAnswers[questionId]) {
                 dots[index].className = 'question-dot answered';
+                
             } else {
                 dots[index].className = index === currentQuestionIndex ? 'question-dot current' : 'question-dot unanswered';
             }
@@ -677,6 +679,7 @@
                 renderQuestionDots();
                 renderCurrentQuestion();
                 updateNavigation();
+                updateQuestionDot(currentQuestionIndex);
             }
         }
 
@@ -686,6 +689,7 @@
                 renderQuestionDots();
                 renderCurrentQuestion();
                 updateNavigation();
+                updateQuestionDot(currentQuestionIndex);
             }
         }
 
@@ -694,6 +698,7 @@
             renderQuestionDots();
             renderCurrentQuestion();
             updateNavigation();
+            updateQuestionDot(currentQuestionIndex);
         }
 
         function startTimer() {
