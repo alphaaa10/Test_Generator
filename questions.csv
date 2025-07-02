@@ -1,0 +1,103 @@
+id,question,category,difficulty,type
+1,What is the capital of France?,B,Easy,True/False
+2,Solve 2x + 5 = 15,A,Easy,Question Answer
+3,Photosynthesis converts sunlight to energy,B,Hard,Fill in the Blanks
+4,Which planet is known as the Red Planet?,A,Medium,True/False
+5,What is the chemical symbol for water?,A,Hard,True/False
+6,Calculate the area of a rectangle with length 10 and width 5.,A,Easy,Question Answer
+7,The Great Wall of China is visible from space.,B,Medium,Fill in the Blanks
+8,Who wrote 'Romeo and Juliet'?,B,Easy,True/False
+9,What is the largest ocean on Earth?,B,Easy,Question Answer
+10,What is the square root of 81?,A,Easy,Question Answer
+11,The capital of Japan is Beijing.,C,Hard,Fill in the Blanks
+12,Which gas do plants absorb from the atmosphere?,C,Easy,True/False
+13,What is the freezing point of water in Celsius?,A,Hard,True/False
+14,"If a car travels at 60 km/h for 2 hours, how far does it travel?",A,Easy,Question Answer
+15,Mount Everest is located in Africa.,B,Easy,Fill in the Blanks
+16,Who painted the Mona Lisa?,B,Hard,True/False
+17,What is the smallest prime number?,B,Easy,Question Answer
+18,The human body has 206 bones.,B,Medium,Fill in the Blanks
+19,What is the longest river in the world?,B,Hard,Question Answer
+20,What is the product of 7 and 9?,A,Hard,Question Answer
+21,The Earth revolves around the Sun.,B,Easy,Fill in the Blanks
+22,What is the currency of the United States?,C,Hard,True/False
+23,Who invented the light bulb?,B,Hard,True/False
+24,"If a shirt costs $25 and is 20% off, what is the discounted price?",B,Medium,Question Answer
+25,Spiders are insects.,C,Easy,Fill in the Blanks
+26,What is the capital of Australia?,A,Easy,True/False
+27,What is the main ingredient in bread?,B,Easy,True/False
+28,Simplify the expression: 3x + 7 - x.,C,Easy,Question Answer
+29,Fish breathe with lungs.,C,Easy,Fill in the Blanks
+30,What is the name of the galaxy our solar system is in?,A,Easy,Fill in the Blanks
+31,What is the largest land animal?,B,Medium,Question Answer
+32,Solve for y: y/4 = 12.,B,Medium,Question Answer
+33,The Amazon rainforest is primarily located in Africa.,A,Medium,Fill in the Blanks
+34,Which instrument is used to measure temperature?,B,Medium,True/False
+35,What is the largest desert in the world?,C,Easy,True/False
+36,What is 15% of 200?,A,Hard,Question Answer
+37,All birds can fly.,B,Easy,Fill in the Blanks
+38,What is the primary gas in Earth's atmosphere?,C,Medium,Fill in the Blanks
+39,Who was the first person to walk on the moon?,C,Medium,True/False
+40,What is the sum of angles in a triangle?,B,Easy,Question Answer
+41,Sound travels faster than light.,B,Easy,Fill in the Blanks
+42,What is the capital of Canada?,B,Hard,True/False
+43,What is the process by which plants make their food?,B,Hard,True/False
+44,"If a recipe calls for 2 cups of flour and you want to double it, how much flour do you need?",C,Medium,Question Answer
+45,Bats are blind.,A,Easy,Fill in the Blanks
+46,What is the chemical symbol for gold?,C,Hard,Question Answer
+47,What is the planet closest to the sun?,C,Easy,True/False
+48,Calculate the perimeter of a square with side length 7.,A,Hard,Question Answer
+49,The Statue of Liberty was a gift from France.,A,Easy,Fill in the Blanks
+50,Which animal is known as the 'King of the Jungle'?,A,Easy,True/False
+51,What is the boiling point of water in Fahrenheit?,B,Easy,True/False
+52,What is the value of pi (rounded to two decimal places)?,A,Easy,Question Answer
+53,Napoleon Bonaparte was French.,B,Hard,Fill in the Blanks
+54,What is the capital of Germany?,C,Medium,Fill in the Blanks
+55,What is the largest living bird?,B,Medium,Fill in the Blanks
+56,"If you buy an item for $50 and sell it for $75, what is your profit?",C,Hard,Question Answer
+57,The Pacific Ocean is the smallest ocean.,C,Easy,Fill in the Blanks
+58,Who discovered penicillin?,B,Easy,True/False
+59,What is the national animal of India?,C,Medium,True/False
+60,"What is the next number in the sequence: 2, 4, 6, 8, ...?",B,Easy,Question Answer
+61,Humans have five senses.,C,Medium,Fill in the Blanks
+62,What is the capital of Italy?,A,Medium,Question Answer
+63,What is the main component of Earth's core?,C,Easy,Fill in the Blanks
+64,"If a train travels 300 km in 3 hours, what is its average speed?",B,Hard,Question Answer
+65,Sharks are mammals.,A,Hard,Fill in the Blanks
+66,Who wrote 'To Kill a Mockingbird'?,B,Medium,Question Answer
+67,What is the process of water turning into vapor called?,C,Medium,True/False
+68,What is the value of 5! (5 factorial)?,A,Easy,Question Answer
+69,The Sahara Desert is the largest hot desert in the world.,C,Medium,Fill in the Blanks
+70,What is the capital of Spain?,C,Easy,True/False
+71,Which ocean separates Europe and North America?,B,Hard,Question Answer
+72,Solve for x: x + 10 = 25.,B,Easy,Question Answer
+73,The sun is a planet.,C,Hard,Fill in the Blanks
+74,What is the hardest natural substance on Earth?,B,Easy,True/False
+75,Who developed the theory of relativity?,C,Easy,True/False
+76,"If you have 4 apples and eat 2, how many do you have left?",A,Easy,Question Answer
+77,Penguins can fly.,B,Easy,Fill in the Blanks
+78,What is the largest organ in the human body?,B,Easy,True/False
+79,What is the capital of Japan?,B,Easy,True/False
+80,What is the sum of 1/2 and 1/4?,B,Medium,Question Answer
+81,All squares are rectangles.,C,Hard,Fill in the Blanks
+82,What is the process of a caterpillar turning into a butterfly called?,B,Easy,Fill in the Blanks
+83,What is the currency of the United Kingdom?,A,Easy,True/False
+84,"If an item costs $100 and there is a 10% sales tax, what is the total cost?",B,Hard,Question Answer
+85,Mars has two moons.,C,Medium,Fill in the Blanks
+86,What is the capital of China?,A,Hard,True/False
+87,Which gas do humans exhale?,B,Hard,True/False
+88,"What is the average of 10, 20, and 30?",A,Medium,Question Answer
+89,A decade is 100 years.,B,Easy,Fill in the Blanks
+90,What is the main component of stars?,A,Medium,True/False
+91,Who invented the telephone?,C,Hard,True/False
+92,"What is the perimeter of a triangle with sides 3, 4, and 5?",A,Medium,Question Answer
+93,The Great Barrier Reef is off the coast of Brazil.,C,Easy,Fill in the Blanks
+94,What is the capital of Russia?,C,Easy,Fill in the Blanks
+95,What is the primary color missing from the rainbow?,C,Easy,Question Answer
+96,"If a book has 250 pages and you read 50 pages, what percentage have you read?",B,Hard,Question Answer
+97,The Earth is flat.,B,Medium,Fill in the Blanks
+98,What is the study of weather called?,B,Easy,True/False
+99,What is the unit of electric current?,A,Medium,Fill in the Blanks
+100,What is the Roman numeral for 50?,A,Easy,Question Answer
+101,Water boils at 0 degrees Celsius.,B,Easy,Fill in the Blanks
+102,What is the largest country by land area?,C,Easy,True/False

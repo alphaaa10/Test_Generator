@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Test Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .test-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.5rem 0;
+            margin-bottom: 2rem;
+            padding-top: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .test-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: none;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: none;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .question-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .question-number {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .difficulty-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            /* letter-spacing: 0.5px; */
+        }
+
+        .difficulty-easy { background: #d4edda; color: #155724; }
+        .difficulty-medium { background: #fff3cd; color: #856404; }
+        .difficulty-hard { background: #f8d7da; color: #721c24; }
+
+        .option-card {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin-bottom: 0.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .option-card:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateX(5px);
+        }
+
+        .option-card.selected {
+            border-color: #667eea;
+            background: var(--success-gradient);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .option-card.selected .form-check-input {
+            background-color: white;
+            border-color: white;
+        }
+
+        .progress-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .custom-progress {
+            height: 12px;
+            border-radius: 10px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+
+        .custom-progress-bar {
+            background: var(--success-gradient);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .timer-card {
+            background: var(--danger-gradient);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .timer-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem; /* Space between icon and timer */
+            padding: 0.5rem 1rem;
+            font-weight: 700;
+        }
+
+        /* .timer-display {
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: 500;
+        } */
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+        .answered-display{
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+            color: rgb(224, 210, 210);
+            border: 1px solid rgb(224, 210, 210);
+            border-radius: 1.3rem;
+            padding: 0.5rem;
+            margin: 0px 0.5rem;
+        }
+        .navigation-buttons {
+            position: sticky;
+            bottom: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .btn-custom {
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success-custom {
+            background: var(--success-gradient);
+            border: none;
+            color: white;
+        }
+
+        .btn-success-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .question-overview {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 20px;
+        }
+
+        .question-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .question-dot.unanswered {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .question-dot.answered {
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        .question-dot.current {
+            background: var(--primary-gradient);
+            color: white;
+            transform: scale(1.2);
+        }
+
+        .fill-input {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .fill-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .true-false-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .tf-option {
+            flex: 1;
+            max-width: 200px;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .tf-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .tf-option.selected {
+            border-color: #667eea;
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        /* .test-info {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 0.5rem;
+            margin-top: 0.3rem;
+        } */
+
+        @media (max-width: 768px) {
+            .test-header {
+                padding: 1rem 0;
+            }
+            
+            .timer-display {
+                font-size: 1.5rem;
+            }
+            
+            .question-overview {
+                position: static;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Header -->
+    <div class="test-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h3 class="mb-0"><i class="bi bi-clipboard-check"></i> Online Assessment</h3>
+                    <p class="mb-0 mt-2">Question 1 of 20</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="test-info">
+                        <div class="row text-center flex align-items center">
+                            <div class="timer-container">
+                                <i class="bi bi-clock"></i>
+                                <span class="timer-display" id="timerDisplay">30:00</span>
+                                <span class="answered-display" id="answered-display">1/20 Answered</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <!-- Progress Section -->
+                        <div class="custom-progress mt-2 mb-2">
+                            <div class="custom-progress-bar" id="progressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Questions Container -->
+                <div id="questionsContainer">
+                    <!-- Questions will be populated by JavaScript -->
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation-buttons">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn btn-outline-secondary btn-custom" id="prevBtn" onclick="previousQuestion()">
+                            <i class="bi bi-arrow-left"></i> Previous
+                        </button>
+                        <div class="text-center">
+                            <span class="text-muted" id="questionCounter">Question 1 of 20</span>
+                        </div>
+                        <button class="btn btn-primary-custom btn-custom" id="nextBtn" onclick="nextQuestion()">
+                            Next <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Timer -->
+                
+
+                <!-- Question Overview -->
+                <div class="question-overview">
+                    <h6 class="mb-3"><i class="bi bi-list-check"></i> Question Overview</h6>
+                    <div id="questionDots" class="text-center">
+                        <!-- Question dots will be populated by JavaScript -->
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between small text-muted">
+                        <span><span class="question-dot answered"></span> Answered</span>
+                        <span><span class="question-dot current"></span> Current</span>
+                        <span><span class="question-dot unanswered"></span> Pending</span>
+                    </div>
+                    <button class="btn btn-success-custom btn-custom w-100 mt-3" onclick="submitTest()">
+                        <i class="bi bi-check-circle"></i> Submit Test
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const questions = [
+            {
+                id: 1,
+                type: "mcq",
+                difficulty: "easy",
+                category: "Science",
+                question: "What is the chemical symbol for water?",
+                options: ["H2O", "CO2", "NaCl", "O2"],
+                correct: "H2O"
+            },
+            {
+                id: 2,
+                type: "mcq",
+                difficulty: "medium",
+                category: "History",
+                question: "Who was the first President of the United States?",
+                options: ["Thomas Jefferson", "George Washington", "John Adams", "Benjamin Franklin"],
+                correct: "George Washington"
+            },
+            {
+                id: 3,
+                type: "tf",
+                difficulty: "easy",
+                category: "Geography",
+                question: "The Earth is flat.",
+                correct: "false"
+            },
+            {
+                id: 4,
+                type: "fill",
+                difficulty: "medium",
+                category: "Mathematics",
+                question: "The square root of 64 is ____.",
+                correct: "8"
+            },
+            {
+                id: 5,
+                type: "mcq",
+                difficulty: "hard",
+                category: "Science",
+                question: "What is the speed of light in vacuum?",
+                options: ["299,792,458 m/s", "300,000,000 m/s", "299,000,000 m/s", "298,792,458 m/s"],
+                correct: "299,792,458 m/s"
+            },
+            {
+                id: 6,
+                type: "tf",
+                difficulty: "medium",
+                category: "Literature",
+                question: "Shakespeare wrote 'Romeo and Juliet'.",
+                correct: "true"
+            },
+            {
+                id: 7,
+                type: "fill",
+                difficulty: "easy",
+                category: "Geography",
+                question: "The capital of France is ____.",
+                correct: "Paris"
+            },
+            {
+                id: 8,
+                type: "mcq",
+                difficulty: "medium",
+                category: "Technology",
+                question: "What does 'HTML' stand for?",
+                options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlink and Text Markup Language"],
+                correct: "Hyper Text Markup Language"
+            },
+            {
+                id: 9,
+                type: "tf",
+                difficulty: "hard",
+                category: "Science",
+                question: "Humans have 24 pairs of chromosomes.",
+                correct: "false"
+            },
+            {
+                id: 10,
+                type: "fill",
+                difficulty: "medium",
+                category: "History",
+                question: "World War II ended in the year ____.",
+                correct: "1945"
+            }
+        ];
+        
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let timeLeft = 1800; // 30 minutes in seconds
+        let timerInterval;
+        let checkAnswers = [];
+        function initializeTest() {
+            // Duplicate questions to make 20 total
+            while (questions.length < 20) {
+                const originalLength = questions.length;
+                for (let i = 0; i < originalLength && questions.length < 20; i++) {
+                    const newQuestion = { ...questions[i] };
+                    newQuestion.id = questions.length + 1;
+                    questions.push(newQuestion);
+                }
+            }
+
+            renderQuestionDots();
+            renderCurrentQuestion();
+            startTimer();
+            updateNavigation();
+        }
+
+        function renderQuestionDots() {
+            const dotsContainer = document.getElementById('questionDots');
+            dotsContainer.innerHTML = '';
+            nextBtn.addEventListener('click',function(){
+                checkAnswers.push(currentQuestionIndex);
+                console.log("new next button",checkAnswers) 
+            })
+            questions.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = `question-dot ${index === currentQuestionIndex ? 'current' : 'unanswered'}`;
+                dot.textContent = index + 1;
+                dot.onclick = () => goToQuestion(index);
+                dotsContainer.appendChild(dot);
+            });
+        }
+        //extra
+        document.getElementById('questionDots').addEventListener('click',function(){
+            document.getElementById('questionsContainer').scrollIntoView({
+                behavior:"smooth"
+            })
+        })
+
+
+
+        function renderCurrentQuestion() {
+            const question = questions[currentQuestionIndex];
+            const container = document.getElementById('questionsContainer');
+            
+            let questionHTML = `
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-number">Question ${currentQuestionIndex + 1}</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">${question.question}</h4>
+                            <div>
+                                <span class="difficulty-badge difficulty-${question.difficulty}">${question.difficulty}</span>
+                                <span class="badge bg-light text-dark ms-2">${question.category}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+            `;
+
+            if (question.type === 'mcq') {
+                questionHTML += '<div class="options-container">';
+                question.options.forEach((option, index) => {
+                    const isSelected = userAnswers[question.id] === option;
+                    questionHTML += `
+                        <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectOption(${question.id}, '${option}', this)">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="question_${question.id}" ${isSelected ? 'checked' : ''}>
+                                <label class="form-check-label w-100">
+                                    <strong>${String.fromCharCode(65 + index)}.</strong> ${option}
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                });
+                questionHTML += '</div>';
+            } else if (question.type === 'tf') {
+                const trueSelected = userAnswers[question.id] === 'true';
+                const falseSelected = userAnswers[question.id] === 'false';
+                questionHTML += `
+                    <div class="true-false-options">
+                        <div class="tf-option ${trueSelected ? 'selected' : ''}" onclick="selectTrueFalse(${question.id}, 'true', this)">
+                            <i class="bi bi-check-circle fs-3 mb-2"></i>
+                            <div>TRUE</div>
+                        </div>
+                        <div class="tf-option ${falseSelected ? 'selected' : ''}" onclick="selectTrueFalse(${question.id}, 'false', this)">
+                            <i class="bi bi-x-circle fs-3 mb-2"></i>
+                            <div>FALSE</div>
+                        </div>
+                    </div>
+                `;
+            } else if (question.type === 'fill') {
+                const currentAnswer = userAnswers[question.id] || '';
+                questionHTML += `
+                    <div class="fill-container">
+                        <input type="text" class="form-control fill-input" placeholder="Type your answer here..." 
+                               value="${currentAnswer}" onchange="setFillAnswer(${question.id}, this.value)">
+                    </div>
+                `;
+            }
+
+            questionHTML += '</div></div>';
+            container.innerHTML = questionHTML;
+            updateQuestionDot(currentQuestionIndex);
+            updateQuestionCounter();
+            updateProgress();
+        }
+        
+        function updateQuestionDot(index) {
+            //console.log(questions[index])
+            const dots = document.querySelectorAll('.question-dot');
+            const questionId = questions[index].id;
+            
+            if (userAnswers[questionId]) {
+                dots[index].className = 'question-dot answered';
+            } else {
+                dots[index].className = index === currentQuestionIndex ? 'question-dot current' : 'question-dot unanswered';
+            }
+        }
+
+        function selectOption(questionId, answer, element) {
+            userAnswers[questionId] = answer;
+            
+            // Update visual selection
+            const options = element.parentNode.querySelectorAll('.option-card');
+            options.forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            updateQuestionDot(currentQuestionIndex);
+            updateProgress();
+        }
+
+        function selectTrueFalse(questionId, answer, element) {
+            userAnswers[questionId] = answer;
+            
+            // Update visual selection
+            const options = element.parentNode.querySelectorAll('.tf-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            updateQuestionDot(currentQuestionIndex);
+            updateProgress();
+        }
+
+        function setFillAnswer(questionId, answer) {
+            userAnswers[questionId] = answer.trim();
+            updateQuestionDot(currentQuestionIndex);
+            updateProgress();
+        }
+
+        
+
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const totalQuestions = questions.length;
+            const progressPercent = (answeredCount / totalQuestions) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('answered-display').textContent = `${answeredCount} / ${totalQuestions} Completed`;
+        }
+
+        function updateQuestionCounter() {
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.innerHTML = 'Finish <i class="bi bi-check-circle"></i>';
+                nextBtn.onclick = submitTest;
+            } else {
+                nextBtn.innerHTML = 'Next <i class="bi bi-arrow-right"></i>';
+                //updateQuestionDot(index)
+                nextBtn.onclick = nextQuestion;
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestionDots();
+                renderCurrentQuestion();
+                updateNavigation();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestionDots();
+                renderCurrentQuestion();
+                updateNavigation();
+            }
+        }
+
+        function goToQuestion(index) {
+            currentQuestionIndex = index;
+            renderQuestionDots();
+            renderCurrentQuestion();
+            updateNavigation();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                document.getElementById('timerDisplay').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 300) { // Last 5 minutes
+                    document.querySelector('.timer-card').style.background = 'var(--danger-gradient)';
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time is up! Submitting test automatically.');
+                    submitTest();
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            
+            const answeredCount = Object.keys(userAnswers).length;
+            const totalQuestions = questions.length;
+            
+            if (answeredCount < totalQuestions) {
+                const unanswered = totalQuestions - answeredCount;
+                if (!confirm(`You have ${unanswered} unanswered questions. Are you sure you want to submit?`)) {
+                    return;
+                }
+            }
+            
+            // Calculate score (simplified)
+            let correctAnswers = 0;
+            questions.forEach(question => {
+                if (userAnswers[question.id] === question.correct) {
+                    correctAnswers++;
+                }
+            });
+            
+            const score = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            alert(`Test submitted successfully!\n\nResults:\nAnswered: ${answeredCount}/${totalQuestions}\nScore: ${score}%\nCorrect Answers: ${correctAnswers}`);
+            
+            // Disable all interactions
+            document.body.style.pointerEvents = 'none';
+            document.body.style.opacity = '0.7';
+        }
+        // Initialize the test when page loads
+        document.addEventListener('DOMContentLoaded', initializeTest);
+    </script>
+</body>
+</html>
