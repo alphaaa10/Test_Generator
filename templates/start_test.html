@@ -602,16 +602,21 @@
             const questionId = questions[index].id;
             console.log("hello1",questionId);
             console.log("hello2",userAnswers)
+
             console.log("hello3",userAnswers[questionId])
+            console.log("today",userAnswers.questionId)
             //dot.className = `question-dot ${index in userAnswers? 'answered'
             console.log("hello4",dots[index].className)
             console.log("hello5",dots[index])
-            if (userAnswers[questionId]) {
-                dots[index].className = 'question-dot answered';
-                
-            } else {
-                dots[index].className = index === currentQuestionIndex ? 'question-dot current' : 'question-dot unanswered';
-            }
+            Object.entries(userAnswers).forEach(([key, value]) => {
+                dots[key-1].className = 'question-dot answered';
+                console.log(`Question ${key}: ${value}`);
+            });
+            // if (userAnswers) {
+         
+            // } else {
+            //     dots[index].className = index === currentQuestionIndex ? 'question-dot current' : 'question-dot unanswered';
+            // }
         }
 
         function selectOption(questionId, answer, element) {
@@ -679,7 +684,7 @@
                 renderQuestionDots();
                 renderCurrentQuestion();
                 updateNavigation();
-                updateQuestionDot(currentQuestionIndex);
+        //        updateQuestionDot(currentQuestionIndex);
             }
         }
 
@@ -689,7 +694,7 @@
                 renderQuestionDots();
                 renderCurrentQuestion();
                 updateNavigation();
-                updateQuestionDot(currentQuestionIndex);
+        //        updateQuestionDot(currentQuestionIndex);
             }
         }
 
@@ -698,7 +703,7 @@
             renderQuestionDots();
             renderCurrentQuestion();
             updateNavigation();
-            updateQuestionDot(currentQuestionIndex);
+        //    updateQuestionDot(currentQuestionIndex);
         }
 
         function startTimer() {

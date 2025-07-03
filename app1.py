@@ -113,6 +113,7 @@ def generate_test():
                             ]
         random.shuffle(unused_question_id)
         pool = unused_question_id
+        random.shuffle(pool)
         # Track actual counts
         actual_counts = {
             'category': defaultdict(int),

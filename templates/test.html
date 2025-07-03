@@ -585,19 +585,41 @@
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-        // Sync slider and input
-        totalSlider.addEventListener('input', function() {
-            totalQuestionsInput.value = this.value;
-            document.getElementById('totalQuestionsValue').textContent = this.value;
-            console.log("hello")
-        });
+        const Distribution_Ratio = {
+          categories : {A:0.30, B: 0.45 , C:0.25},
+          difficulty : {easy: 0.50, medium : 0.25, hard: 0.25 },
+          types : {fib : 0.33, tf: 0.34, qa: 0.33 }
+        }
 
-        totalQuestionsInput.addEventListener('change', function() {
-            if (this.value > 50) this.value = 50;
-            if (this.value < 5) this.value = 5;
-            totalSlider.value = this.value; // Corrected: Setting slider value from input
-            document.getElementById('totalQuestionsValue').textContent = this.value;
-        });
+        function distributieQuestions(total){
+          catAInput.value = Math.ceil(total*Distribution_Ratio.categories.A);
+          catBInput.value = Math.floor(total*Distribution_Ratio.categories.B)
+          catCInput.value = total - (parseInt(catAInput.value) + parseInt(catBInput.value))
+          console.log("cat check",catAInput.value,catBInput.value,catCInput.value)
+          easyInput.value = Math.ceil(total * Distribution_Ratio.difficulty.easy);
+          mediumInput.value = Math.floor(total * Distribution_Ratio.difficulty.medium);
+          hardInput.value = total - (parseInt(easyInput.value) + parseInt(mediumInput.value));
+          console.log("cat check",easyInput.value,mediumInput.value,hardInput.value)
+          fibInput.value = Math.ceil(total * Distribution_Ratio.types.fib);
+          tfInput.value = Math.floor(total * Distribution_Ratio.types.tf);
+          qaInput.value = total - (parseInt(fibInput.value) + parseInt(tfInput.value));
+          console.log("cat check",fibInput.value,tfInput.value,qaInput.value)
+        }
+
+        function handleTotalChange(){
+          let total = parseInt(this.value)
+          if (isNaN(total)) total = 20; 
+          if(total > 50 ) total = 50;
+          if(total < 5 ) total = 5;
+          totalSlider.value = total;
+          totalQuestionsInput.value = total
+          document.getElementById('totalQuestionsValue').textContent = total;
+          distributieQuestions(total)
+        }
+        // Sync slider and input
+        totalSlider.addEventListener('input', handleTotalChange);
+
+        totalQuestionsInput.addEventListener('change', handleTotalChange);
 
         // Generate button handler
         generateBtn.addEventListener('click', generateTest);
@@ -621,24 +643,28 @@
     // Validate inputs (minor modification for category limits)
     function validateInputs() {
         const total = parseInt(totalQuestionsInput.value) || 0;
-        const catA = parseInt(catAInput.value) || 0;
-        const catB = parseInt(catBInput.value) || 0;
-        const catC = parseInt(catCInput.value) || 0;
+        let catA = parseInt(catAInput.value) || 0;
+        let catB = parseInt(catBInput.value) || 0;
+        let catC = parseInt(catCInput.value) || 0;
         const categoryTotal = catA + catB + catC;
 
-        const easy = parseInt(easyInput.value) || 0;
-        const medium = parseInt(mediumInput.value) || 0;
-        const hard = parseInt(hardInput.value) || 0;
+        let easy = parseInt(easyInput.value) || 0;
+        let medium = parseInt(mediumInput.value) || 0;
+        let hard = parseInt(hardInput.value) || 0;
         const difficultyTotal = easy + medium + hard;
 
-        const fib = parseInt(fibInput.value) || 0;
-        const tf = parseInt(tfInput.value) || 0;
-        const qa = parseInt(qaInput.value) || 0;
+        let fib = parseInt(fibInput.value) || 0;
+        let tf = parseInt(tfInput.value) || 0;
+        let qa = parseInt(qaInput.value) || 0;
         const typeTotal = fib + tf + qa;
 
-        if (!(categoryTotal === total)) {
-            showAlert("Category Error", `Inequality in Category total (${categoryTotal}) and total questions (${total})`);
-            return false;
+        const MAX_AVAILABLE_CAT_A = 34;
+        const MAX_AVAILABLE_CAT_B = 33;
+        const MAX_AVAILABLE_CAT_C = 33;
+
+        if (!(categoryTotal === total)) { 
+          showAlert("Category Error", `Inequality in Category total (${categoryTotal}) and total questions (${total})`);
+          return false;
         }
 
         if (!(difficultyTotal === total)) {
@@ -656,9 +682,6 @@
         // based on the actual CSV data. For now, using approximate values based on
         // the 100+ questions CSV provided earlier (approx. 33-34 questions per category).
         // If your CSV changes, adjust these values or implement backend validation.
-        const MAX_AVAILABLE_CAT_A = 34;
-        const MAX_AVAILABLE_CAT_B = 33;
-        const MAX_AVAILABLE_CAT_C = 33;
 
         if (catA > MAX_AVAILABLE_CAT_A || catB > MAX_AVAILABLE_CAT_B || catC > MAX_AVAILABLE_CAT_C) {
             showAlert("Category Limit",
@@ -760,7 +783,6 @@ function displayResults(responseData, catA, catB, catC, easy, medium, hard) {
     const existingAlert = document.querySelector('#resultsContainer .alert.alert-warning')
     if(existingAlert){
       existingAlert.remove()
-      console.log('hello')
     }
 
     // Handle empty results

@@ -1,5 +1,6 @@
 id,question,category,difficulty,type
 1,What is the capital of France?,B,Easy,True/False
+
 2,Solve 2x + 5 = 15,A,Easy,Question Answer
 3,Photosynthesis converts sunlight to energy,B,Hard,Fill in the Blanks
 4,Which planet is known as the Red Planet?,A,Medium,True/False
@@ -101,3 +102,14 @@ id,question,category,difficulty,type
 100,What is the Roman numeral for 50?,A,Easy,Question Answer
 101,Water boils at 0 degrees Celsius.,B,Easy,Fill in the Blanks
 102,What is the largest country by land area?,C,Easy,True/False
+103,What is the hardest natural substance on Earth?,A,Medium,Question Answer
+104,The Eiffel Tower is located in Rome.,B,Easy,True/False
+105,What is the capital city of Canada?,C,Medium,Fill in the Blanks
+106,"If a car travels at 60 km/h for 3 hours, how far has it traveled?",B,Hard,Question Answer
+107,Giraffes are native to Australia.,C,Easy,True/False
+108,Who wrote "Romeo and Juliet"?,A,Medium,Question Answer
+109,The currency of the United States is the ________.,C,Easy,Fill in the Blanks
+110,What is the largest ocean on Earth?,A,Hard,Question Answer
+111,A polygon with eight sides is called an octagon.,B,Medium,True/False
+112,What gas do plants primarily absorb from the atmosphere?,C,Easy,Question Answer
+
