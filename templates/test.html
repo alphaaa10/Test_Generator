@@ -581,7 +581,7 @@
 
     // --- NEW: API Base URL ---
     // IMPORTANT: Replace 'http://localhost:5000' with the actual URL of your Python Flask backend.
-    const API_BASE_URL = 'http://localhost:5000/api';
+    const API_BASE_URL = '/api';
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
@@ -733,7 +733,8 @@ async function generateTest() {
         const response = await fetch(`${API_BASE_URL}/generate-test`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify(requestBody),
+            credentials: 'include'
         });
 
         if (!response.ok) {

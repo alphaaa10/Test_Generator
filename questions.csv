@@ -1,6 +1,5 @@
 id,question,category,difficulty,type
-1,What is the capital of France?,B,Easy,True/False
-
+1,What is the capital of France?,B,Easy,True/Fals
 2,Solve 2x + 5 = 15,A,Easy,Question Answer
 3,Photosynthesis converts sunlight to energy,B,Hard,Fill in the Blanks
 4,Which planet is known as the Red Planet?,A,Medium,True/False

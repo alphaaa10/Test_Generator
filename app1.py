@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template 
+from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
 import pandas as pd
 import random
@@ -6,10 +6,14 @@ import os
 from collections import defaultdict
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24).hex()
-
+app.secret_key = 'static-key'
+app.config.update({
+    'SESSION_COOKIE_SAMESITE': 'Lax',    # default, allows top-level navigations
+    'SESSION_COOKIE_SECURE': False,      # OK when not using HTTPS on localhost
+    'SESSION_COOKIE_DOMAIN': '127.0.0.1' # binds the cookie to exactly this host
+})
 # Critical CORS configuration update
-CORS(app)
+#CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5000"])
 category_counts = defaultdict(int)
 difficulty_counts = defaultdict(int)
 type_counts = defaultdict(int)
@@ -27,7 +31,6 @@ def load_questions_from_csv():
             raise FileNotFoundError(f"CSV file not found at {CSV_FILE_PATH}")
         
         df = pd.read_csv(CSV_FILE_PATH)
-        
         # Validate required columns
         required_columns = ['id', 'question', 'category', 'difficulty', 'type']
         if not all(col in df.columns for col in required_columns):
@@ -65,9 +68,12 @@ def index():
 @app.route('/test.html')
 def test():
     return render_template('test.html')
+    
 @app.route('/start_test.html')
 def start_test():
-    return render_template('start_test.html')
+    test_data = session.get('test_data')
+    print(test_data)
+    return render_template('start_test.html', data=test_data)
 
 # Add to your existing Flask app
 @app.route('/api/generate-test', methods=['POST'])
@@ -238,12 +244,17 @@ def generate_test():
             'messages': messages,
             'resetMessages': reset_message
         }
-        
+        #print(response['test'])
+        session['test_data'] = response['test']
         return jsonify(response)
 
     except Exception as e:
         print(f"Error generating test: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
+
+@app.route('/check-session')
+def check_session():
+    return {'session': dict(session)}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

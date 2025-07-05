@@ -6,6 +6,12 @@
     <title>Online Test Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    {% if data %}
+        <script type="text/javascript">
+            const testData = {{ data|tojson }};
+            console.log(testData)
+        </script>
+    {% endif %}
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -320,9 +326,9 @@
     <div class="test-header">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-md-8">
+                <div class="col-md-8" id="custom-header">
                     <h3 class="mb-0"><i class="bi bi-clipboard-check"></i> Online Assessment</h3>
-                    <p class="mb-0 mt-2">Question 1 of 20</p>
+                    
                 </div>
                 <div class="col-md-4">
                     <div class="test-info">
@@ -400,109 +406,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const questions = [
-            {
-                id: 1,
-                type: "mcq",
-                difficulty: "easy",
-                category: "Science",
-                question: "What is the chemical symbol for water?",
-                options: ["H2O", "CO2", "NaCl", "O2"],
-                correct: "H2O"
-            },
-            {
-                id: 2,
-                type: "mcq",
-                difficulty: "medium",
-                category: "History",
-                question: "Who was the first President of the United States?",
-                options: ["Thomas Jefferson", "George Washington", "John Adams", "Benjamin Franklin"],
-                correct: "George Washington"
-            },
-            {
-                id: 3,
-                type: "tf",
-                difficulty: "easy",
-                category: "Geography",
-                question: "The Earth is flat.",
-                correct: "false"
-            },
-            {
-                id: 4,
-                type: "fill",
-                difficulty: "medium",
-                category: "Mathematics",
-                question: "The square root of 64 is ____.",
-                correct: "8"
-            },
-            {
-                id: 5,
-                type: "mcq",
-                difficulty: "hard",
-                category: "Science",
-                question: "What is the speed of light in vacuum?",
-                options: ["299,792,458 m/s", "300,000,000 m/s", "299,000,000 m/s", "298,792,458 m/s"],
-                correct: "299,792,458 m/s"
-            },
-            {
-                id: 6,
-                type: "tf",
-                difficulty: "medium",
-                category: "Literature",
-                question: "Shakespeare wrote 'Romeo and Juliet'.",
-                correct: "true"
-            },
-            {
-                id: 7,
-                type: "fill",
-                difficulty: "easy",
-                category: "Geography",
-                question: "The capital of France is ____.",
-                correct: "Paris"
-            },
-            {
-                id: 8,
-                type: "mcq",
-                difficulty: "medium",
-                category: "Technology",
-                question: "What does 'HTML' stand for?",
-                options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlink and Text Markup Language"],
-                correct: "Hyper Text Markup Language"
-            },
-            {
-                id: 9,
-                type: "tf",
-                difficulty: "hard",
-                category: "Science",
-                question: "Humans have 24 pairs of chromosomes.",
-                correct: "false"
-            },
-            {
-                id: 10,
-                type: "fill",
-                difficulty: "medium",
-                category: "History",
-                question: "World War II ended in the year ____.",
-                correct: "1945"
-            }
-        ];
-        
+        newMcq = {
+            id: 1,
+            type: "mcq",
+            difficulty: "easy",
+            category: "Science",
+            question: "What is the chemical Symbol for water?",
+            options: ["H20" , "C02", "NaCl", "O2"],
+            correct: "H20"
+        }
+        testData.unshift(newMcq)
+        testData.forEach((item,index) => {
+            item.id = index + 1
+        })
         let currentQuestionIndex = 0;
         let userAnswers = {};
         let timeLeft = 1800; // 30 minutes in seconds
         let timerInterval;
         let checkAnswers = [];
+        const custom_header = document.getElementById('custom-header');
         function initializeTest() {
-            // Duplicate questions to make 20 total
-            while (questions.length < 20) {
-                const originalLength = questions.length;
-                for (let i = 0; i < originalLength && questions.length < 20; i++) {
-                    const newQuestion = { ...questions[i] };
-                    newQuestion.id = questions.length + 1;
-                    questions.push(newQuestion);
-                }
-            }
-
+            custom_header.innerHTML += `<p class = "mb-0 mt-2">Question <span id ="qNum">1</span> of ${testData.length}</p>`
             renderQuestionDots();
             renderCurrentQuestion();
             startTimer();
@@ -511,8 +435,9 @@
 
         function renderQuestionDots() {
             const dotsContainer = document.getElementById('questionDots');
+            console.log("self check",userAnswers)
             dotsContainer.innerHTML = '';
-            questions.forEach((_, index) => {
+            testData.forEach((_, index) => {
                 const dot = document.createElement('span');
                     dot.className = `question-dot ${index === currentQuestionIndex ? 'current' : 'unanswered'}`;
                     dot.textContent = index + 1;
@@ -530,7 +455,8 @@
 
 
         function renderCurrentQuestion() {
-            const question = questions[currentQuestionIndex];
+            const question = testData[currentQuestionIndex];
+            //console.log(testData[currentQuestionIndex])
             const container = document.getElementById('questionsContainer');
             
             let questionHTML = `
@@ -564,7 +490,8 @@
                     `;
                 });
                 questionHTML += '</div>';
-            } else if (question.type === 'tf') {
+            } else if (question.type === 'True/False') {
+                //console.log(question.id)
                 const trueSelected = userAnswers[question.id] === 'true';
                 const falseSelected = userAnswers[question.id] === 'false';
                 questionHTML += `
@@ -579,7 +506,7 @@
                         </div>
                     </div>
                 `;
-            } else if (question.type === 'fill') {
+            } else if (question.type === 'Fill in the Blanks' || 'Question Answer') {
                 const currentAnswer = userAnswers[question.id] || '';
                 questionHTML += `
                     <div class="fill-container">
@@ -599,24 +526,11 @@
         function updateQuestionDot(index) {
             //console.log(questions[index])
             const dots = document.querySelectorAll('.question-dot');
-            const questionId = questions[index].id;
-            console.log("hello1",questionId);
-            console.log("hello2",userAnswers)
-
-            console.log("hello3",userAnswers[questionId])
-            console.log("today",userAnswers.questionId)
-            //dot.className = `question-dot ${index in userAnswers? 'answered'
-            console.log("hello4",dots[index].className)
-            console.log("hello5",dots[index])
             Object.entries(userAnswers).forEach(([key, value]) => {
                 dots[key-1].className = 'question-dot answered';
-                console.log(`Question ${key}: ${value}`);
+            //    console.log(dots[key],dots[key].className);
+            //    console.log(`Question ${key}: ${value}`);
             });
-            // if (userAnswers) {
-         
-            // } else {
-            //     dots[index].className = index === currentQuestionIndex ? 'question-dot current' : 'question-dot unanswered';
-            // }
         }
 
         function selectOption(questionId, answer, element) {
@@ -632,7 +546,6 @@
 
         function selectTrueFalse(questionId, answer, element) {
             userAnswers[questionId] = answer;
-            
             // Update visual selection
             const options = element.parentNode.querySelectorAll('.tf-option');
             options.forEach(opt => opt.classList.remove('selected'));
@@ -651,7 +564,7 @@
 
         function updateProgress() {
             const answeredCount = Object.keys(userAnswers).length;
-            const totalQuestions = questions.length;
+            const totalQuestions = testData.length;
             const progressPercent = (answeredCount / totalQuestions) * 100;
             
             document.getElementById('progressBar').style.width = progressPercent + '%';
@@ -659,7 +572,7 @@
         }
 
         function updateQuestionCounter() {
-            document.getElementById('questionCounter').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestionIndex + 1} of ${testData.length}`;
         }
 
         function updateNavigation() {
@@ -668,7 +581,7 @@
             
             prevBtn.disabled = currentQuestionIndex === 0;
             
-            if (currentQuestionIndex === questions.length - 1) {
+            if (currentQuestionIndex === testData.length - 1) {
                 nextBtn.innerHTML = 'Finish <i class="bi bi-check-circle"></i>';
                 nextBtn.onclick = submitTest;
             } else {
@@ -679,7 +592,7 @@
         }
 
         function nextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
+            if (currentQuestionIndex < testData.length - 1) {
                 currentQuestionIndex++;
                 renderQuestionDots();
                 renderCurrentQuestion();
@@ -700,6 +613,7 @@
 
         function goToQuestion(index) {
             currentQuestionIndex = index;
+            document.getElementById('qNum').textContent = currentQuestionIndex + 1
             renderQuestionDots();
             renderCurrentQuestion();
             updateNavigation();
@@ -732,7 +646,7 @@
             clearInterval(timerInterval);
             
             const answeredCount = Object.keys(userAnswers).length;
-            const totalQuestions = questions.length;
+            const totalQuestions = testData.length;
             
             if (answeredCount < totalQuestions) {
                 const unanswered = totalQuestions - answeredCount;
@@ -743,7 +657,7 @@
             
             // Calculate score (simplified)
             let correctAnswers = 0;
-            questions.forEach(question => {
+            testData.forEach(question => {
                 if (userAnswers[question.id] === question.correct) {
                     correctAnswers++;
                 }
